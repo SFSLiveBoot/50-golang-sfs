@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+. "$(dirname "$0")/.common.sh"
+
+: ${tgz_url:=$(latest_url)}
+: ${tgz:=$(dl_file "$tgz_url")}
+
+mkdir -p "$DESTDIR/usr/local"
+
+tar xfz "$tgz" -C "$DESTDIR/usr/local"
