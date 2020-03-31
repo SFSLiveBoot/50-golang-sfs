@@ -3,4 +3,4 @@
 set -e
 . "$(dirname "$0")/.common.sh"
 
-test "x$(installed_ver)" = "x$(latest_ver)"
+is_latest
