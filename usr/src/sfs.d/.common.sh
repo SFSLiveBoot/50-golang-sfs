@@ -7,7 +7,13 @@
 : "${tgz_fpat:=linux-amd64.tar.gz}"
 
 latest_url() {
-  curl -s "$dl_page" | grep -o "https://[^\"'[:space:]>]*${tgz_fpat}" | head -1
+  test -z "$_latest_url" || { echo "$_latest_url"; return; }
+  _latest_url="$(curl -s "$dl_page" | grep -Eo "(/dl/|https://)[^\"'[:space:]>]*${tgz_fpat}" | head -1)"
+  case "$_latest_url" in
+    https://*|http://*) ;;
+    *) _latest_url="${dl_page%/dl/}$_latest_url" ;;
+  esac
+  echo "$_latest_url"
 }
 
 installed_ver() {
