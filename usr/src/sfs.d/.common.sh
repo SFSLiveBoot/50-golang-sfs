@@ -3,12 +3,12 @@
 : "${lbu:=/opt/LiveBootUtils}"
 . "$lbu/scripts/common.func"
 
-: "${dl_page:=https://golang.org/dl/}"
+: "${dl_page:=https://go.dev/dl/}"
 : "${tgz_fpat:=linux-amd64.tar.gz}"
 
 latest_url() {
   test -z "$_latest_url" || { echo "$_latest_url"; return; }
-  _latest_url="$(curl -s "$dl_page" | grep -Eo "(/dl/|https://)[^\"'[:space:]>]*${tgz_fpat}" | head -1)"
+  _latest_url="$(curl -L -s "$dl_page" | grep -Eo "(/dl/|https://)[^\"'[:space:]>]*${tgz_fpat}" | head -1)"
   case "$_latest_url" in
     https://*|http://*) ;;
     *) _latest_url="${dl_page%/dl/}$_latest_url" ;;
